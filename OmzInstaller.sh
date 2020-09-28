@@ -1,13 +1,5 @@
 #!/bin/sh
 
-command_exists() {
-        command -v "$@" >/dev/null 2>&1
-}
-
-if ! command_exists zsh; then
-    echo "${YELLOW}Zsh is not installed!${RESET} Please install it!!"
-    exit 1
-fi
 
 if [ `whoami` != "root" ];then
 	echo "WARNING: Use root!!"
