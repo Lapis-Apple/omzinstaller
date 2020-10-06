@@ -7,6 +7,6 @@ Simply download OmzInstaller.sh and run it as root user. / 下载OmzInstaller.sh
 
 For example: / 举例:
 
-wget https://github.com/Lapis-Apple/omzinstaller/raw/master/OmzInstaller.sh
+wget https://raw.githubusercontent.com/Lapis-Apple/omzinstaller/master/OmzInstaller.sh
 
 chmod +x OmzInstaller.sh && sh ./OmzInstaller.sh
