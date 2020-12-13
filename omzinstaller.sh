@@ -15,6 +15,11 @@ if ! command_exists curl; then
     exit 1
 fi
 
+if ! command_exists git; then
+    echo "git is not installed. Please install it."
+    exit 1
+fi
+
 if [ `whoami` != "root" ];then
 	echo "WARNING: Use root user."
 	exit 1
