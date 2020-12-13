@@ -4,6 +4,7 @@ An oh-my-zsh installer, optimized for China network. / 一个简单的oh-my-zsh�
 # How to use / 如何使用
 Simply download OmzInstaller.sh and run it as root user. / 下载OmzInstaller.sh，然后以Root身份运行即可。
 
+或是直接执行这条命令： sh -c "$(curl -fsSL https://raw.fastgit.org/Lapis-Apple/omzinstaller/master/OmzInstaller.sh)"
 
 For example: / 举例:
 
