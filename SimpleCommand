@@ -1,7 +1,0 @@
-wget https://gitee.com/mirrors/oh-my-zsh/raw/master/tools/install.sh && chmod +x ./install.sh && RUNZSH=no ZSH=${ZSH:-/usr/share/oh-my-zsh} REPO=${REPO:-mirrors/oh-my-zsh} REMOTE=${REMOTE:-https://gitee.com/${REPO}.git} ./install.sh && cp /usr/share/oh-my-zsh/templates/zshrc.zsh-template /usr/share/oh-my-zsh/templates/zshrc.zsh-template_bak && rm -rf ~/.zshrc
-
-sed -i "s#\$HOME/.oh-my-zsh#\"/usr/share/oh-my-zsh\"#g"  /usr/share/oh-my-zsh/templates/zshrc.zsh-template && sed -i "s#robbyrussell#ys#g"  /usr/share/oh-my-zsh/templates/zshrc.zsh-template && sed -i "s#plugins=(git)#plugins=(git extract sudo cp zsh_reload zsh-syntax-highlighting)#g"  /usr/share/oh-my-zsh/templates/zshrc.zsh-template
-
-git clone https://gitee.com/Annihilater/zsh-syntax-highlighting.git /usr/share/oh-my-zsh/plugins/zsh-syntax-highlighting && cp /usr/share/oh-my-zsh/templates/zshrc.zsh-template ~/.zshrc
-
-echo -e "\033[33moh-my-zsh is now installed! \033[0m" && echo "if you want to let oh-my-zsh works in other user, go to that user and execute:" && echo -e "\033[36mcp /usr/share/oh-my-zsh/templates/zshrc.zsh-template ~/.zshrc \033[0m"
