@@ -30,7 +30,7 @@ curl -o ohmyzshinstall.sh https://raw.fastgit.org/ohmyzsh/ohmyzsh/master/tools/i
 #加上可执行权限
 chmod +x ./ohmyzshinstall.sh
 #开始安装 （不运行zsh 安装在/usr/share/oh-my-zsh 从Fastgit下载）
-RUNZSH=no ZSH=${ZSH:-/usr/share/oh-my-zsh} REMOTE=${REMOTE:-https://hub.fastgit.org/${REPO}.git} ./ohmyzshinstall.sh
+RUNZSH=no ZSH=${ZSH:-/usr/share/oh-my-zsh} REPO=${REPO:-ohmyzsh/ohmyzsh} REMOTE=${REMOTE:-https://hub.fastgit.org/${REPO}.git} ./ohmyzshinstall.sh
 #备份template zshrc
 cp /usr/share/oh-my-zsh/templates/zshrc.zsh-template /usr/share/oh-my-zsh/templates/zshrc.zsh-template_bak
 #删掉安装脚本生成的zshrc
