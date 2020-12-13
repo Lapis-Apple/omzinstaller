@@ -21,7 +21,7 @@ if [ `whoami` != "root" ];then
 fi
 
 #从Fastgit得到oh-my-zsh安装脚本
-curl -o ohmyzshinstall.sh https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh
+curl -o ohmyzshinstall.sh https://raw.fastgit.org/ohmyzsh/ohmyzsh/master/tools/install.sh
 #加上可执行权限
 chmod +x ./install.sh
 #开始安装 （不运行zsh 安装在/usr/share/oh-my-zsh 从Fastgit下载）
