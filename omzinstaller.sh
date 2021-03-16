@@ -26,11 +26,11 @@ if [ `whoami` != "root" ];then
 fi
 
 #从Fastgit得到oh-my-zsh安装脚本
-curl -o ohmyzshinstall.sh https://raw.fastgit.org/ohmyzsh/ohmyzsh/master/tools/install.sh
+wget https://raw.fastgit.org/ohmyzsh/ohmyzsh/master/tools/install.sh
 #加上可执行权限
-chmod +x ./ohmyzshinstall.sh
+chmod +x ./install.sh
 #开始安装 （不运行zsh 安装在/usr/share/oh-my-zsh 从Fastgit下载）
-RUNZSH=no ZSH=${ZSH:-/usr/share/oh-my-zsh} REPO=${REPO:-ohmyzsh/ohmyzsh} REMOTE=${REMOTE:-https://hub.fastgit.org/${REPO}.git} ./ohmyzshinstall.sh
+RUNZSH=no ZSH=${ZSH:-/usr/share/oh-my-zsh} REPO=${REPO:-ohmyzsh/ohmyzsh} REMOTE=${REMOTE:-https://hub.fastgit.org/${REPO}.git} ./install.sh
 #备份template zshrc
 cp /usr/share/oh-my-zsh/templates/zshrc.zsh-template /usr/share/oh-my-zsh/templates/zshrc.zsh-template_bak
 #删掉安装脚本生成的zshrc
