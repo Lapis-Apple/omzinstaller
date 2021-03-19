@@ -1,53 +1,82 @@
 #!/bin/sh
 
-
+# OmzInstaller Script
+# By Lapis Apple (laple@pd2.ink)
 command_exists() {
         command -v "$@" >/dev/null 2>&1
 }
-
+self_check() {
 if ! command_exists zsh; then
-    echo "Zsh is not installed! Please install it."
+    echo "FATAL: zsh is not installed. Please install it."
     exit 1
 fi
 
-if ! command_exists curl; then
-    echo "curl is not installed. Please install it."
-    exit 1
+if ! command_exists wget; then
+    if ! command_exists curl; then
+        echo "FATAL: wget or curl is not installed. Please install one or more of it(recommended wget)."
+        exit 1
+    else
+        echo "WARNING: wget is not installed, falling back to curl. this may cause error."
+        USE_DOWNLOADER='curl'
+    fi
+else
+    USE_DOWNLOADER='wget'
 fi
 
 if ! command_exists git; then
-    echo "git is not installed. Please install it."
+    echo "FATAL: git is not installed. Please install it."
+    exit 1
+fi
+
+if [ -d "/usr/share/oh-my-zsh" ]; then
+    echo "/usr/share/oh-my-zsh exists! Please delete it before install."
     exit 1
 fi
 
 if [ `whoami` != "root" ];then
-	echo "WARNING: Use root user."
+	echo "FATAL: Use root user."
 	exit 1
 fi
+}
+self_check
 
-#从Fastgit得到oh-my-zsh安装脚本
-wget https://raw.fastgit.org/ohmyzsh/ohmyzsh/master/tools/install.sh
-#加上可执行权限
+echo "Now downloading install script.."
+if [ $USE_DOWNLOADER = curl ]; then
+    $USE_DOWNLOADER install.sh https://raw.fastgit.org/ohmyzsh/ohmyzsh/master/tools/install.sh
+else
+    $USE_DOWNLOADER https://raw.fastgit.org/ohmyzsh/ohmyzsh/master/tools/install.sh
+fi
 chmod +x ./install.sh
-#开始安装 （不运行zsh 安装在/usr/share/oh-my-zsh 从Fastgit下载）
+
+echo "----- RUNNING OH-MY-ZSH INSTALL SCRIPT -----"
 RUNZSH=no ZSH=${ZSH:-/usr/share/oh-my-zsh} REPO=${REPO:-ohmyzsh/ohmyzsh} REMOTE=${REMOTE:-https://hub.fastgit.org/${REPO}.git} ./install.sh
-#备份template zshrc
+echo "----- OH-MY-ZSH INSTALL SCRIPT COMPLETED -----"
+if [ $? != 0 ];then
+    echo "WARNING: Install script returned error. Code=$?."
+    read -p "WARNING: Do you want to ignore this error? (y/N)" ANSWER
+    if [ "$ANSWER" != "Y" -o "$ANSWER" != "y" ]; then
+        exit 1
+    fi
+fi
 cp /usr/share/oh-my-zsh/templates/zshrc.zsh-template /usr/share/oh-my-zsh/templates/zshrc.zsh-template_bak
-#删掉安装脚本生成的zshrc
 rm -rf ~/.zshrc
 
-#修改Zshrc
+echo "Now patching zshrc file.."
+
 sed -i "s#\$HOME/.oh-my-zsh#\"/usr/share/oh-my-zsh\"#g"  /usr/share/oh-my-zsh/templates/zshrc.zsh-template
-sed -i "s#robbyrussell#ys#g"  /usr/share/oh-my-zsh/templates/zshrc.zsh-template
-sed -i "s#plugins=(git)#plugins=(git extract sudo cp zsh_reload zsh-syntax-highlighting zsh-autosuggestions)#g"  /usr/share/oh-my-zsh/templates/zshrc.zsh-template
+sed -i "s#robbyrussell#gentoo#g"  /usr/share/oh-my-zsh/templates/zshrc.zsh-template
+sed -i "s#plugins=(git)#plugins=(git extract sudo cp pip z wd zsh_reload zsh-syntax-highlighting zsh-autosuggestions adb docker)#g"  /usr/share/oh-my-zsh/templates/zshrc.zsh-template
 
-#安装高亮插件
+echo "Now installing zsh-syntax-highlighting."
 git clone https://hub.fastgit.org/zsh-users/zsh-syntax-highlighting.git /usr/share/oh-my-zsh/plugins/zsh-syntax-highlighting
-#安装自动提示插件
+echo "Now installing zsh-autosuggestions."
 git clone https://hub.fastgit.org/zsh-users/zsh-autosuggestions /usr/share/oh-my-zsh/plugins/zsh-autosuggestions
+#echo "Now installing autojump."
+#git clone https://hub.fastgit.org/wting/autojump.git /usr/share/oh-my-zsh/plugins/autojump
 
-#把修改完的zshrc拷贝到用户文件夹
+echo "Applying patched zshrc file.."
 cp /usr/share/oh-my-zsh/templates/zshrc.zsh-template ~/.zshrc
 
-#输出提示
 echo -e "\033[33moh-my-zsh is now installed! \033[0m" && echo "if you want to let oh-my-zsh works in other user, go to that user and execute:" && echo -e "\033[36mcp /usr/share/oh-my-zsh/templates/zshrc.zsh-template ~/.zshrc \033[0m"
+
+exit 0
