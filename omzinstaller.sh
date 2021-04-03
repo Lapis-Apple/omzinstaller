@@ -17,6 +17,9 @@ if ! command_exists wget; then
         exit 1
     else
         echo "WARNING: wget is not installed, falling back to curl. this may cause error."
+        echo "We strongly recommended you press Ctrl+C now and install wget, then run omzinstaller again."
+        echo "Waiting for 10s.."
+        sleep 10s
         USE_DOWNLOADER='curl'
     fi
 else
@@ -29,8 +32,8 @@ if ! command_exists git; then
 fi
 
 if [ -d "/usr/share/oh-my-zsh" ]; then
-    echo "/usr/share/oh-my-zsh exists! Please delete it before install."
-    exit 1
+    echo "FATAL: /usr/share/oh-my-zsh exists! Please delete it before install."
+    #exit 1
 fi
 
 if [ `whoami` != "root" ];then
@@ -42,7 +45,7 @@ self_check
 
 echo "Now downloading install script.."
 if [ $USE_DOWNLOADER = curl ]; then
-    $USE_DOWNLOADER install.sh https://raw.fastgit.org/ohmyzsh/ohmyzsh/master/tools/install.sh
+    $USE_DOWNLOADER -o install.sh https://raw.fastgit.org/ohmyzsh/ohmyzsh/master/tools/install.sh
 else
     $USE_DOWNLOADER https://raw.fastgit.org/ohmyzsh/ohmyzsh/master/tools/install.sh
 fi
@@ -50,7 +53,6 @@ chmod +x ./install.sh
 
 echo "----- RUNNING OH-MY-ZSH INSTALL SCRIPT -----"
 RUNZSH=no ZSH=${ZSH:-/usr/share/oh-my-zsh} REPO=${REPO:-ohmyzsh/ohmyzsh} REMOTE=${REMOTE:-https://hub.fastgit.org/${REPO}.git} ./install.sh
-echo "----- OH-MY-ZSH INSTALL SCRIPT COMPLETED -----"
 if [ $? != 0 ];then
     echo "WARNING: Install script returned error. Code=$?."
     read -p "WARNING: Do you want to ignore this error? (y/N)" ANSWER
@@ -58,6 +60,7 @@ if [ $? != 0 ];then
         exit 1
     fi
 fi
+echo "----- OH-MY-ZSH INSTALL SCRIPT COMPLETED -----"
 cp /usr/share/oh-my-zsh/templates/zshrc.zsh-template /usr/share/oh-my-zsh/templates/zshrc.zsh-template_bak
 rm -rf ~/.zshrc
 
