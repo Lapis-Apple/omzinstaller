@@ -32,8 +32,11 @@ if ! command_exists git; then
 fi
 
 if [ -d "/usr/share/oh-my-zsh" ]; then
-    echo "FATAL: /usr/share/oh-my-zsh exists! Please delete it before install."
-    #exit 1
+    echo "WARNING: /usr/share/oh-my-zsh exists! Please delete it before install."
+    read -p "WARNING: Do you want to ignore this error? (y/N)" ANSWER
+    if [ "$ANSWER" != "Y" -o "$ANSWER" != "y" ]; then
+        exit 1
+    fi
 fi
 
 if [ `whoami` != "root" ];then
