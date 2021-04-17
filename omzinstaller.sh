@@ -57,6 +57,8 @@ read -p "What mirror do you want to use? G=GitHub F=FastGit E=Gitee > " MIRRORAN
 echo "Now downloading install script.."
 if [ $USED_DOWNLOADER = curl ]; then
     DOWNLOAD_CMD="$USED_DOWNLOADER -o install.sh" 
+else
+    DOWNLOAD_CMD="$USED_DOWNLOADER"
 fi
 
 if [ "$MIRRORANSWER" = "G" -o "$MIRRORANSWER" = "g" ]; then
