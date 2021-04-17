@@ -20,10 +20,10 @@ if ! command_exists wget; then
         echo "We strongly recommended you press Ctrl+C now and install wget, then run omzinstaller again."
         echo "Waiting for 10s.."
         sleep 10s
-        USE_DOWNLOADER='curl'
+        USED_DOWNLOADER='curl'
     fi
 else
-    USE_DOWNLOADER='wget'
+    USED_DOWNLOADER='wget'
 fi
 
 if ! command_exists git; then
@@ -46,18 +46,42 @@ fi
 }
 self_check
 
-echo "Now downloading install script.."
-if [ $USE_DOWNLOADER = curl ]; then
-    $USE_DOWNLOADER -o install.sh https://raw.fastgit.org/ohmyzsh/ohmyzsh/master/tools/install.sh
-else
-    $USE_DOWNLOADER https://raw.fastgit.org/ohmyzsh/ohmyzsh/master/tools/install.sh
+read -p "What mirror do you want to use? G=GitHub F=FastGit E=Gitee" MIRRORANSWER
+if [ "$MIRRORANSWER" != "F" -o "$MIRRORANSWER" != "f" -o "$MIRRORANSWER" != "g" -o "$MIRRORANSWER" != "G" -o "$MIRRORANSWER" != "E" -o "$MIRRORANSWER" != "e" ]; then
+    echo "FATAL: Selection invaild."
+    exit 1
+
 fi
+
+echo "Now downloading install script.."
+if [ $USED_DOWNLOADER = curl ]; then
+    if [ "$MIRRORANSWER" != "G" -o "$MIRRORANSWER" != "g" ]; then
+        $USED_DOWNLOADER -o install.sh https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh
+    fi
+    if [ "$MIRRORANSWER" != "F" -o "$MIRRORANSWER" != "f" ]; then
+        $USED_DOWNLOADER -o install.sh https://raw.fastgit.org/ohmyzsh/ohmyzsh/master/tools/install.sh
+    fi
+    if [ "$MIRRORANSWER" != "e" -o "$MIRRORANSWER" != "E" ]; then
+        $USED_DOWNLOADER -o install.sh https://gitee.com/mirrors/oh-my-zsh/raw/master/tools/install.sh
+    fi
+else
+    if [ "$MIRRORANSWER" != "G" -o "$MIRRORANSWER" != "g" ]; then
+        $USED_DOWNLOADER https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh
+    fi
+    if [ "$MIRRORANSWER" != "F" -o "$MIRRORANSWER" != "f" ]; then
+        $USED_DOWNLOADER https://raw.fastgit.org/ohmyzsh/ohmyzsh/master/tools/install.sh
+    fi
+    if [ "$MIRRORANSWER" != "e" -o "$MIRRORANSWER" != "E" ]; then
+        $USED_DOWNLOADER https://gitee.com/mirrors/oh-my-zsh/raw/master/tools/install.sh
+    fi
+fi
+
 chmod +x ./install.sh
 
 echo "----- RUNNING OH-MY-ZSH INSTALL SCRIPT -----"
 RUNZSH=no ZSH=${ZSH:-/usr/share/oh-my-zsh} REPO=${REPO:-ohmyzsh/ohmyzsh} REMOTE=${REMOTE:-https://hub.fastgit.org/${REPO}.git} ./install.sh
 if [ $? != 0 ];then
-    echo "WARNING: Install script returned error. Code=$?."
+    echo "WARNING: Install script returned error!"
     read -p "WARNING: Do you want to ignore this error? (y/N)" ANSWER
     if [ "$ANSWER" != "Y" -o "$ANSWER" != "y" ]; then
         exit 1
@@ -74,9 +98,29 @@ sed -i "s#robbyrussell#gentoo#g"  /usr/share/oh-my-zsh/templates/zshrc.zsh-templ
 sed -i "s#plugins=(git)#plugins=(git extract sudo cp pip z wd zsh_reload zsh-syntax-highlighting zsh-autosuggestions adb docker)#g"  /usr/share/oh-my-zsh/templates/zshrc.zsh-template
 
 echo "Now installing zsh-syntax-highlighting."
-git clone https://hub.fastgit.org/zsh-users/zsh-syntax-highlighting.git /usr/share/oh-my-zsh/plugins/zsh-syntax-highlighting
+
+if [ "$MIRRORANSWER" != "G" -o "$MIRRORANSWER" != "g" ]; then
+    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git /usr/share/oh-my-zsh/plugins/zsh-syntax-highlighting
+fi
+if [ "$MIRRORANSWER" != "F" -o "$MIRRORANSWER" != "f" ]; then
+    git clone https://hub.fastgit.org/zsh-users/zsh-syntax-highlighting.git /usr/share/oh-my-zsh/plugins/zsh-syntax-highlighting
+fi
+if [ "$MIRRORANSWER" != "e" -o "$MIRRORANSWER" != "E" ]; then
+    git clone https://gitee.com/mirror-github/zsh-syntax-highlighting.git /usr/share/oh-my-zsh/plugins/zsh-syntax-highlighting
+fi
+
 echo "Now installing zsh-autosuggestions."
-git clone https://hub.fastgit.org/zsh-users/zsh-autosuggestions /usr/share/oh-my-zsh/plugins/zsh-autosuggestions
+
+if [ "$MIRRORANSWER" != "G" -o "$MIRRORANSWER" != "g" ]; then
+    git clone https://github.com/zsh-users/zsh-autosuggestions.git /usr/share/oh-my-zsh/plugins/zsh-autosuggestions
+fi
+if [ "$MIRRORANSWER" != "F" -o "$MIRRORANSWER" != "f" ]; then
+    git clone https://hub.fastgit.org/zsh-users/zsh-autosuggestions.git /usr/share/oh-my-zsh/plugins/zsh-autosuggestions
+fi
+if [ "$MIRRORANSWER" != "e" -o "$MIRRORANSWER" != "E" ]; then
+    git clone https://gitee.com/mirror-github/zsh-autosuggestions.git /usr/share/oh-my-zsh/plugins/zsh-autosuggestions
+fi
+
 #echo "Now installing autojump."
 #git clone https://hub.fastgit.org/wting/autojump.git /usr/share/oh-my-zsh/plugins/autojump
 
