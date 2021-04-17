@@ -32,8 +32,10 @@ if ! command_exists git; then
 fi
 
 if [ -d "/usr/share/oh-my-zsh" ]; then
-    echo "WARNING: /usr/share/oh-my-zsh exists! Please delete it before install."
-    read -p "WARNING: Do you want to ignore this error? (y/N)" ANSWER
+    echo "FATAL: /usr/share/oh-my-zsh exists! Please delete it before install."
+    exit 1
+
+#    read -p "WARNING: Do you want to ignore this error? (y/N)" ANSWER
 #    if [ "$ANSWER" != "Y" -o "$ANSWER" != "y" ]; then
 #        exit 1
 #    fi
@@ -47,38 +49,39 @@ fi
 self_check
 
 read -p "What mirror do you want to use? G=GitHub F=FastGit E=Gitee > " MIRRORANSWER
-if [ "$MIRRORANSWER" != "F" -o "$MIRRORANSWER" != "f" -o "$MIRRORANSWER" != "g" -o "$MIRRORANSWER" != "G" -o "$MIRRORANSWER" != "E" -o "$MIRRORANSWER" != "e" ]; then
-    echo "FATAL: Selection invaild."
+#if [ "$MIRRORANSWER" != "F" -o "$MIRRORANSWER" != "f" -o "$MIRRORANSWER" != "g" -o "$MIRRORANSWER" != "G" -o "$MIRRORANSWER" != "E" -o "$MIRRORANSWER" != "e" ]; then
+#    echo "FATAL: Selection invaild."
 #    exit 1
-fi
+#fi
 
 echo "Now downloading install script.."
 if [ $USED_DOWNLOADER = curl ]; then
-    if [ "$MIRRORANSWER" = "G" -o "$MIRRORANSWER" = "g" ]; then
-        $USED_DOWNLOADER -o install.sh https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh
-    elif [ "$MIRRORANSWER" = "F" -o "$MIRRORANSWER" = "f" ]; then
-        $USED_DOWNLOADER -o install.sh https://raw.fastgit.org/ohmyzsh/ohmyzsh/master/tools/install.sh
-    elif [ "$MIRRORANSWER" = "e" -o "$MIRRORANSWER" = "E" ]; then
-        $USED_DOWNLOADER -o install.sh https://gitee.com/mirrors/oh-my-zsh/raw/master/tools/install.sh
-    else
-        echo "FATAL: Selection invaild."
-    fi
-else
-    if [ "$MIRRORANSWER" = "G" -o "$MIRRORANSWER" = "g" ]; then
-        $USED_DOWNLOADER https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh
-    fi
-    if [ "$MIRRORANSWER" = "F" -o "$MIRRORANSWER" = "f" ]; then
-        $USED_DOWNLOADER https://raw.fastgit.org/ohmyzsh/ohmyzsh/master/tools/install.sh
-    fi
-    if [ "$MIRRORANSWER" = "e" -o "$MIRRORANSWER" = "E" ]; then
-        $USED_DOWNLOADER https://gitee.com/mirrors/oh-my-zsh/raw/master/tools/install.sh
-    fi
+    DOWNLOAD_CMD="$USED_DOWNLOADER -o install.sh" 
 fi
+
+if [ "$MIRRORANSWER" = "G" -o "$MIRRORANSWER" = "g" ]; then
+    $DOWNLOAD_CMD https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh
+elif [ "$MIRRORANSWER" = "F" -o "$MIRRORANSWER" = "f" ]; then
+    $DOWNLOAD_CMD https://raw.fastgit.org/ohmyzsh/ohmyzsh/master/tools/install.sh
+elif [ "$MIRRORANSWER" = "e" -o "$MIRRORANSWER" = "E" ]; then
+    $DOWNLOAD_CMD https://gitee.com/mirrors/oh-my-zsh/raw/master/tools/install.sh
+else
+    echo "FATAL: Selection may invaild."
+fi
+
 
 chmod +x ./install.sh
 
 echo "----- RUNNING OH-MY-ZSH INSTALL SCRIPT -----"
-RUNZSH=no ZSH=${ZSH:-/usr/share/oh-my-zsh} REPO=${REPO:-ohmyzsh/ohmyzsh} REMOTE=${REMOTE:-https://hub.fastgit.org/${REPO}.git} ./install.sh
+if [ "$MIRRORANSWER" = "G" -o "$MIRRORANSWER" = "g" ]; then
+    RUNZSH=no ZSH=${ZSH:-/usr/share/oh-my-zsh} ./install.sh
+elif [ "$MIRRORANSWER" = "F" -o "$MIRRORANSWER" = "f" ]; then
+    RUNZSH=no ZSH=${ZSH:-/usr/share/oh-my-zsh} REPO=${REPO:-ohmyzsh/ohmyzsh} REMOTE=${REMOTE:-https://hub.fastgit.org/${REPO}.git} ./install.sh
+elif [ "$MIRRORANSWER" = "e" -o "$MIRRORANSWER" = "E" ]; then
+    RUNZSH=no ZSH=${ZSH:-/usr/share/oh-my-zsh} REPO=${REPO:-mirrors/ohmyzsh} REMOTE=${REMOTE:-https://gitee.com/${REPO}.git} ./install.sh
+else
+    echo "What? How do you get there? Report this bug if you're not developer."
+fi
 if [ $? != 0 ];then
     echo "WARNING: Install script returned error!"
     read -p "WARNING: Do you want to ignore this error? (y/N)" ANSWER
@@ -87,8 +90,8 @@ if [ $? != 0 ];then
     fi
 fi
 echo "----- OH-MY-ZSH INSTALL SCRIPT COMPLETED -----"
-cp /usr/share/oh-my-zsh/templates/zshrc.zsh-template /usr/share/oh-my-zsh/templates/zshrc.zsh-template_bak
-rm -rf ~/.zshrc
+cp /usr/share/oh-my-zsh/templates/zshrc.zsh-template /usr/share/oh-my-zsh/templates/zshrc.zsh-template.bak
+rm ~/.zshrc
 
 echo "Now patching zshrc file.."
 
@@ -119,9 +122,6 @@ fi
 if [ "$MIRRORANSWER" != "e" -o "$MIRRORANSWER" != "E" ]; then
     git clone https://gitee.com/mirror-github/zsh-autosuggestions.git /usr/share/oh-my-zsh/plugins/zsh-autosuggestions
 fi
-
-#echo "Now installing autojump."
-#git clone https://hub.fastgit.org/wting/autojump.git /usr/share/oh-my-zsh/plugins/autojump
 
 echo "Applying patched zshrc file.."
 cp /usr/share/oh-my-zsh/templates/zshrc.zsh-template ~/.zshrc
