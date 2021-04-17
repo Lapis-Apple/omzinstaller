@@ -1,7 +1,9 @@
 #!/bin/sh
-
-# OmzInstaller Script
-# By Lapis Apple (laple@pd2.ink)
+# OMZInstaller Script!
+# A simple script for installing oh-my-zsh for all users, common plugins, and mirror for China Mainland!
+# This script is open-source under MPL.
+# GitHub URL: https://github.com/Lapis-Apple/omzinstaller/
+# Made by Lapis Apple! Twitter@LapisApple2
 command_exists() {
         command -v "$@" >/dev/null 2>&1
 }
@@ -110,21 +112,21 @@ sed -i "s#plugins=(git)#plugins=(git extract sudo cp pip z wd zsh_reload zsh-syn
 
 echo "Now installing zsh-syntax-highlighting."
 
-if [ "$MIRRORANSWER" != "G" -o "$MIRRORANSWER" != "g" ]; then
+if [ "$MIRRORANSWER" = "G" -o "$MIRRORANSWER" = "g" ]; then
     git clone https://github.com/zsh-users/zsh-syntax-highlighting.git /usr/share/oh-my-zsh/plugins/zsh-syntax-highlighting
-elif [ "$MIRRORANSWER" != "F" -o "$MIRRORANSWER" != "f" ]; then
+elif [ "$MIRRORANSWER" = "F" -o "$MIRRORANSWER" = "f" ]; then
     git clone https://hub.fastgit.org/zsh-users/zsh-syntax-highlighting.git /usr/share/oh-my-zsh/plugins/zsh-syntax-highlighting
-elif [ "$MIRRORANSWER" != "e" -o "$MIRRORANSWER" != "E" ]; then
+elif [ "$MIRRORANSWER" = "e" -o "$MIRRORANSWER" = "E" ]; then
     git clone https://gitee.com/mirror-github/zsh-syntax-highlighting.git /usr/share/oh-my-zsh/plugins/zsh-syntax-highlighting
 fi
 
 echo "Now installing zsh-autosuggestions."
 
-if [ "$MIRRORANSWER" != "G" -o "$MIRRORANSWER" != "g" ]; then
+if [ "$MIRRORANSWER" = "G" -o "$MIRRORANSWER" = "g" ]; then
     git clone https://github.com/zsh-users/zsh-autosuggestions.git /usr/share/oh-my-zsh/plugins/zsh-autosuggestions
-elif [ "$MIRRORANSWER" != "F" -o "$MIRRORANSWER" != "f" ]; then
+elif [ "$MIRRORANSWER" = "F" -o "$MIRRORANSWER" = "f" ]; then
     git clone https://hub.fastgit.org/zsh-users/zsh-autosuggestions.git /usr/share/oh-my-zsh/plugins/zsh-autosuggestions
-elif [ "$MIRRORANSWER" != "e" -o "$MIRRORANSWER" != "E" ]; then
+elif [ "$MIRRORANSWER" = "e" -o "$MIRRORANSWER" = "E" ]; then
     git clone https://gitee.com/mirror-github/zsh-autosuggestions.git /usr/share/oh-my-zsh/plugins/zsh-autosuggestions
 fi
 
