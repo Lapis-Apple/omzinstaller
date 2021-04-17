@@ -34,9 +34,9 @@ fi
 if [ -d "/usr/share/oh-my-zsh" ]; then
     echo "WARNING: /usr/share/oh-my-zsh exists! Please delete it before install."
     read -p "WARNING: Do you want to ignore this error? (y/N)" ANSWER
-    if [ "$ANSWER" != "Y" -o "$ANSWER" != "y" ]; then
-        exit 1
-    fi
+#    if [ "$ANSWER" != "Y" -o "$ANSWER" != "y" ]; then
+#        exit 1
+#    fi
 fi
 
 if [ `whoami` != "root" ];then
@@ -46,32 +46,31 @@ fi
 }
 self_check
 
-read -p "What mirror do you want to use? G=GitHub F=FastGit E=Gitee" MIRRORANSWER
+read -p "What mirror do you want to use? G=GitHub F=FastGit E=Gitee > " MIRRORANSWER
 if [ "$MIRRORANSWER" != "F" -o "$MIRRORANSWER" != "f" -o "$MIRRORANSWER" != "g" -o "$MIRRORANSWER" != "G" -o "$MIRRORANSWER" != "E" -o "$MIRRORANSWER" != "e" ]; then
     echo "FATAL: Selection invaild."
-    exit 1
-
+#    exit 1
 fi
 
 echo "Now downloading install script.."
 if [ $USED_DOWNLOADER = curl ]; then
-    if [ "$MIRRORANSWER" != "G" -o "$MIRRORANSWER" != "g" ]; then
+    if [ "$MIRRORANSWER" = "G" -o "$MIRRORANSWER" = "g" ]; then
         $USED_DOWNLOADER -o install.sh https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh
-    fi
-    if [ "$MIRRORANSWER" != "F" -o "$MIRRORANSWER" != "f" ]; then
+    elif [ "$MIRRORANSWER" = "F" -o "$MIRRORANSWER" = "f" ]; then
         $USED_DOWNLOADER -o install.sh https://raw.fastgit.org/ohmyzsh/ohmyzsh/master/tools/install.sh
-    fi
-    if [ "$MIRRORANSWER" != "e" -o "$MIRRORANSWER" != "E" ]; then
+    elif [ "$MIRRORANSWER" = "e" -o "$MIRRORANSWER" = "E" ]; then
         $USED_DOWNLOADER -o install.sh https://gitee.com/mirrors/oh-my-zsh/raw/master/tools/install.sh
+    else
+        echo "FATAL: Selection invaild."
     fi
 else
-    if [ "$MIRRORANSWER" != "G" -o "$MIRRORANSWER" != "g" ]; then
+    if [ "$MIRRORANSWER" = "G" -o "$MIRRORANSWER" = "g" ]; then
         $USED_DOWNLOADER https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh
     fi
-    if [ "$MIRRORANSWER" != "F" -o "$MIRRORANSWER" != "f" ]; then
+    if [ "$MIRRORANSWER" = "F" -o "$MIRRORANSWER" = "f" ]; then
         $USED_DOWNLOADER https://raw.fastgit.org/ohmyzsh/ohmyzsh/master/tools/install.sh
     fi
-    if [ "$MIRRORANSWER" != "e" -o "$MIRRORANSWER" != "E" ]; then
+    if [ "$MIRRORANSWER" = "e" -o "$MIRRORANSWER" = "E" ]; then
         $USED_DOWNLOADER https://gitee.com/mirrors/oh-my-zsh/raw/master/tools/install.sh
     fi
 fi
