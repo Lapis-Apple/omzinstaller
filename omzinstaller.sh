@@ -67,6 +67,9 @@ elif [ "$MIRRORANSWER" = "F" -o "$MIRRORANSWER" = "f" ]; then
     $DOWNLOAD_CMD https://raw.fastgit.org/ohmyzsh/ohmyzsh/master/tools/install.sh
 elif [ "$MIRRORANSWER" = "e" -o "$MIRRORANSWER" = "E" ]; then
     $DOWNLOAD_CMD https://gitee.com/mirrors/oh-my-zsh/raw/master/tools/install.sh
+elif [ "$MIRRORANSWER" = "o" -o "$MIRRORANSWER" = "O" ]; then
+    $DOWNLOAD_CMD https://codechina.csdn.net/mirrors/ohmyzsh/ohmyzsh/-/raw/master/tools/install.sh
+
 else
     echo "FATAL: Selection may invaild."
 fi
@@ -81,6 +84,10 @@ elif [ "$MIRRORANSWER" = "F" -o "$MIRRORANSWER" = "f" ]; then
     RUNZSH=no ZSH=${ZSH:-/usr/share/oh-my-zsh} REPO=${REPO:-ohmyzsh/ohmyzsh} REMOTE=${REMOTE:-https://hub.fastgit.org/${REPO}.git} ./install.sh
 elif [ "$MIRRORANSWER" = "e" -o "$MIRRORANSWER" = "E" ]; then
     RUNZSH=no ZSH=${ZSH:-/usr/share/oh-my-zsh} REPO=${REPO:-mirrors/ohmyzsh} REMOTE=${REMOTE:-https://gitee.com/${REPO}.git} ./install.sh
+elif [ "$MIRRORANSWER" = "o" -o "$MIRRORANSWER" = "O" ]; then
+    MIRRORANSWER="f"
+    echo "Thank you for testing."
+    RUNZSH=no ZSH=${ZSH:-/usr/share/oh-my-zsh} REPO=${REPO:-mirrors/ohmyzsh} REMOTE=${REMOTE:-https://codechina.csdn.net/mirrors/${REPO}.git} ./install.sh
 else
     echo "What? How do you get there? Report this bug if you're not developer."
 fi
