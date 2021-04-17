@@ -112,11 +112,9 @@ echo "Now installing zsh-syntax-highlighting."
 
 if [ "$MIRRORANSWER" != "G" -o "$MIRRORANSWER" != "g" ]; then
     git clone https://github.com/zsh-users/zsh-syntax-highlighting.git /usr/share/oh-my-zsh/plugins/zsh-syntax-highlighting
-fi
-if [ "$MIRRORANSWER" != "F" -o "$MIRRORANSWER" != "f" ]; then
+elif [ "$MIRRORANSWER" != "F" -o "$MIRRORANSWER" != "f" ]; then
     git clone https://hub.fastgit.org/zsh-users/zsh-syntax-highlighting.git /usr/share/oh-my-zsh/plugins/zsh-syntax-highlighting
-fi
-if [ "$MIRRORANSWER" != "e" -o "$MIRRORANSWER" != "E" ]; then
+elif [ "$MIRRORANSWER" != "e" -o "$MIRRORANSWER" != "E" ]; then
     git clone https://gitee.com/mirror-github/zsh-syntax-highlighting.git /usr/share/oh-my-zsh/plugins/zsh-syntax-highlighting
 fi
 
@@ -124,11 +122,9 @@ echo "Now installing zsh-autosuggestions."
 
 if [ "$MIRRORANSWER" != "G" -o "$MIRRORANSWER" != "g" ]; then
     git clone https://github.com/zsh-users/zsh-autosuggestions.git /usr/share/oh-my-zsh/plugins/zsh-autosuggestions
-fi
-if [ "$MIRRORANSWER" != "F" -o "$MIRRORANSWER" != "f" ]; then
+elif [ "$MIRRORANSWER" != "F" -o "$MIRRORANSWER" != "f" ]; then
     git clone https://hub.fastgit.org/zsh-users/zsh-autosuggestions.git /usr/share/oh-my-zsh/plugins/zsh-autosuggestions
-fi
-if [ "$MIRRORANSWER" != "e" -o "$MIRRORANSWER" != "E" ]; then
+elif [ "$MIRRORANSWER" != "e" -o "$MIRRORANSWER" != "E" ]; then
     git clone https://gitee.com/mirror-github/zsh-autosuggestions.git /usr/share/oh-my-zsh/plugins/zsh-autosuggestions
 fi
 
