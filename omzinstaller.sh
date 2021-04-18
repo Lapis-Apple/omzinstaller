@@ -85,10 +85,10 @@ if [ "$MIRRORANSWER" = "G" -o "$MIRRORANSWER" = "g" ]; then
 elif [ "$MIRRORANSWER" = "F" -o "$MIRRORANSWER" = "f" ]; then
     RUNZSH=no ZSH=${ZSH:-/usr/share/oh-my-zsh} REPO=${REPO:-ohmyzsh/ohmyzsh} REMOTE=${REMOTE:-https://hub.fastgit.org/${REPO}.git} ./install.sh
 elif [ "$MIRRORANSWER" = "e" -o "$MIRRORANSWER" = "E" ]; then
-    RUNZSH=no ZSH=${ZSH:-/usr/share/oh-my-zsh} REPO=${REPO:-mirrors/ohmyzsh} REMOTE=${REMOTE:-https://gitee.com/${REPO}.git} ./install.sh
+    RUNZSH=no ZSH=${ZSH:-/usr/share/oh-my-zsh} REPO=${REPO:-mirrors/oh-my-zsh} REMOTE=${REMOTE:-https://gitee.com/${REPO}.git} ./install.sh
 elif [ "$MIRRORANSWER" = "o" -o "$MIRRORANSWER" = "O" ]; then
     MIRRORANSWER="f"
-    echo "Thank you for testing."
+    echo "Thank you for testing CodeChina Mirror! Now I'll redirect you to FastGit."
     RUNZSH=no ZSH=${ZSH:-/usr/share/oh-my-zsh} REPO=${REPO:-mirrors/ohmyzsh} REMOTE=${REMOTE:-https://codechina.csdn.net/mirrors/${REPO}.git} ./install.sh
 else
     echo "What? How do you get there? Report this bug if you're not developer."
