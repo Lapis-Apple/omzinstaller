@@ -1,7 +1,10 @@
 # OmzInstaller
-一个简单的oh-my-zsh安装器，包含自动化安装常用插件，以及对中国大陆网络下载速度的优化。
+A simply oh-my-zsh with common-used plugin installer, and multiple mirrors selection support(Mainly for users in China Mainland).
 
-# 如何使用
-用你的方法下载omzinstaller.sh，然后以Root身份运行即可。
+# How to use?
+Well, just simply download and run "omzinstaller.sh" as root by your way.
 
-例如直接执行： sh -c "$(curl -fsSL https://raw.fastgit.org/Lapis-Apple/omzinstaller/master/omzinstaller.sh)"
+For example directly run this command: sudo sh -c "$(curl -fsSL https://raw.fastgit.org/Lapis-Apple/omzinstaller/master/omzinstaller.sh)"
+
+
+issues & PRs welcome.
