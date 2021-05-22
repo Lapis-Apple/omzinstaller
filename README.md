@@ -5,7 +5,7 @@ Multiple mirrors selection supported(Mainly for users in China Mainland).
 # How to use?
 Just simply download and run "omzinstaller.sh" as root by your way.
 
-For example directly run this command: sudo sh -c "$(curl -fsSL https://raw.fastgit.org/Lapis-Apple/omzinstaller/master/omzinstaller.sh)"
+For example directly run this command: `sudo sh -c "$(curl -fsSL https://raw.fastgit.org/Lapis-Apple/omzinstaller/master/omzinstaller.sh)"`
 
 # What's it made for?
 Well, lazy me?
