@@ -1,2 +1,2 @@
 # OmzInstaller
-Moved to github.com/DP7-Network/omzinstaller.
+Moved to https://github.com/DP7-Network/omzinstaller.
